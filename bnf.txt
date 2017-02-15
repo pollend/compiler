@@ -1,0 +1,33 @@
+program 	  : (statement)*
+block : '{' (statement)* '}' 
+
+statement 	  : if_expression | while_expression | assignment_expression
+
+if_statement : 'if' '(' (logical_expression) ')' (block)
+while_statement : 'while' '(' (expression) ')' (block)
+
+
+assignment_expression : VARIABLE ASSIGNMENT_OPERATOR expression ';'
+
+expression: unit |
+			(expression unary_operator)*
+
+
+unit : '(' expression ')' | 
+		NUMBER
+
+
+logical_expression: equality_expression '||' equality_expression |
+					equality_expression '&&' equality_expression |
+					'(' equality_expression ')'
+					
+equality_expression: expression '<' expression |
+					 expression '<=' expression |
+					 expression '>=' expression |
+					 expression '>' expression |
+					 '(' equality_expression ')' |
+					 VARIABLE
+
+
+
+(a + b + (c + d))
