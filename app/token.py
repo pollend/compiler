@@ -14,6 +14,11 @@ class TokenSymbols(Enum):
 	WHILE_CLAUSE = 9	# While
 	NUMBER = 10		# 10 100
 	SEMI_COLON = 12		# ;
+	LOGICAL_OPERATOR = 13
+
+class LogicalTypes(Enum):
+	OR_OPERATOR = 0
+	AND_OPERATOR = 1
 	
 
 class EqualityTypes(Enum):

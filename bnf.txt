@@ -3,22 +3,28 @@ block : '{' (statement)* '}'
 
 statement 	  : if_expression | while_expression | assignment_expression
 
-if_statement : 'if' '(' (logical_expression) ')' (block)
-while_statement : 'while' '(' (expression) ')' (block)
+if_statement : 'if' '(' logical_expression ')' (block)
+while_statement : 'while' '(' logical_expression ')' (block)
 
 
 assignment_expression : VARIABLE ASSIGNMENT_OPERATOR expression ';'
 
-expression: unit |
-			(expression unary_operator)*
 
+
+
+expression: unit unary_operator expression |
+ 			unit;
+
+unit : NUMBER | VARIABLE
+			
 
 unit : '(' expression ')' | 
 		NUMBER
 
 
-logical_expression: equality_expression '||' equality_expression |
-					equality_expression '&&' equality_expression |
+logical_expression: (equality_expression '||' logical_expression) |
+					(equality_expression '&&' logical_expression) | 
+					equality_expression         				  | 
 					'(' equality_expression ')'
 					
 equality_expression: expression '<' expression |

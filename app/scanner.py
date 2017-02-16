@@ -23,6 +23,10 @@ class Scanner:
 				self.push_token_key(TokenSymbols.IF_CLAUSE)
 			elif(self.check_equality("while")):
 				self.push_token_key(TokenSymbols.WHILE_CLAUSE)
+			elif(self.check_equality("||")):	
+				self.push_token(TokenSymbols.LOGICAL_OPERATOR,LogicalTypes.OR_OPERATOR)
+			elif(self.check_equality("&&")):	
+				self.push_token(TokenSymbols.LOGICAL_OPERATOR,LogicalTypes.AND_OPERATOR)
 			elif(self.check_equality(";")):
 				self.push_token_key(TokenSymbols.SEMI_COLON)
 			elif(self.check_equality(")")):

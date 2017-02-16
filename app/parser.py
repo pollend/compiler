@@ -57,7 +57,7 @@ class Parser:
 
 		pass
 
-	def parse_logical_expression(self, node):
+	def parse_LOGICAL_EXPRESSION(self, node):
 		pass
 
 	def parse_IF_STATEMENT(self,parent):
@@ -69,7 +69,7 @@ class Parser:
 		self.expected_token(if_statement,TokenSymbols.L_PAREN)
 		
 		self.next_token()
-		self.parse_EXPRESSION(if_statement)
+		self.parse_LOGICAL_EXPRESSION(if_statement)
 		
 		self.next_token()
 		self.expected_token(if_statement,TokenSymbols.R_PAREN)
