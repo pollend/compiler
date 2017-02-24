@@ -7,6 +7,7 @@ with open('test.m', 'r') as content_file:
 scanner = Scanner(data)
 scanner.parse()
 
-token_collection = scanner.get_token_collection()
 
-print token_collection
+print(scanner)
+
+token_collection = scanner.get_token_collection()

@@ -10,22 +10,13 @@ class Parser:
 	def expected_token(self,node,token):
 		if(self.index < len(self.token_collection)):
 			print("EOF Expected Token:" + token)
-		if(self.token_collection[self.index]["key"] == token)
+		if(self.token_collection[self.index].symbol == token)
 			node.append_child(self.token_collection[self.index])
 		else:
 			print("Expected Token:" + token)
-		
-		
-	def expected_token_value(self,node,token,value):
-		if(self.index < len(self.token_collection)):
-			print("EOF Expected Token:" + token)
-		if(self.token_collection[self.index]["key"] == token and self.token_collection[self.index]["value"] == value)
-			node.append_child(self.token_collection[self.index])
-		else:
-			print("Expected Token:" + token + "-" + value)
 
 	def current_token(self):
-		return self.token_collection[self.index]["key"]
+		return self.token_collection[self.index]
 
 	def next_token(self):
 		self.index += 1

@@ -1,4 +1,5 @@
-from app.token import TokenSymbols,EqualityTypes,AssignmentType
+from app.token import TokenSymbols
+from app.symbol import Symbol
 
 ALPHA = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 NUMERIC = ['0','1','2','3','4','5','6','7','8','9']
@@ -11,52 +12,46 @@ class Scanner:
 		self.index = 0
 		self.token_collection = []
 
-	def push_token(self,key,value):
-		self.token_collection.append({"key" : key, "value" : value})
-
-	def push_token_key(self,key):
-		self.token_collection.append({"key" : key})
-
 	def parse(self):
 		while self.index < len(self.source) :
 			if (self.check_equality("if")):
-				self.push_token_key(TokenSymbols.IF_CLAUSE)
+				self.token_collection.append(Symbol(TokenSymbols.IF_CLAUSE,""))
 			elif(self.check_equality("while")):
-				self.push_token_key(TokenSymbols.WHILE_CLAUSE)
+				self.token_collection.append(Symbol(TokenSymbols.WHILE_CLAUSE,""))
 			elif(self.check_equality("||")):	
-				self.push_token(TokenSymbols.LOGICAL_OPERATOR,LogicalTypes.OR_OPERATOR)
+				self.token_collection.append(Symbol(TokenSymbols.OR_OPERATOR,""))
 			elif(self.check_equality("&&")):	
-				self.push_token(TokenSymbols.LOGICAL_OPERATOR,LogicalTypes.AND_OPERATOR)
+				self.token_collection.append(Symbol(TokenSymbols.AND_OPERATOR,""))
 			elif(self.check_equality(";")):
-				self.push_token_key(TokenSymbols.SEMI_COLON)
+				self.token_collection.append(Symbol(TokenSymbols.SEMI_COLON,""))
 			elif(self.check_equality(")")):
-				self.push_token_key(TokenSymbols.R_PAREN)
+				self.token_collection.append(Symbol(TokenSymbols.R_PAREN,""))
 			elif(self.check_equality("(")):
-				self.push_token_key(TokenSymbols.L_PAREN)
+				self.token_collection.append(Symbol(TokenSymbols.L_PAREN,""))
 			elif(self.check_equality(",")):
-				self.push_token_key(TokenSymbols.COMMA)
+				self.token_collection.append(Symbol(TokenSymbols.COMMA,""))
 			elif(self.check_equality("{")):
-				self.push_token_key(TokenSymbols.L_CURLEY_BRACE)
+				self.token_collection.append(Symbol(TokenSymbols.L_CURLEY_BRACE,""))
 			elif(self.check_equality("}")):
-				self.push_token_key(TokenSymbols.R_CURLEY_BRACE)
+				self.token_collection.append(Symbol(TokenSymbols.R_CURLEY_BRACE,""))
 			elif(self.check_equality("==")):
-				self.push_token(TokenSymbols.EQUALITY,EqualityTypes.DOUBLE_EQUAL)
+				self.token_collection.append(Symbol(TokenSymbols.DOUBLE_EQUAL,""))
 			elif(self.check_equality("<=")):
-				self.push_token(TokenSymbols.EQUALITY,EqualityTypes.LESS_THEN_EQUAL)
+				self.token_collection.append(Symbol(TokenSymbols.LESS_THEN_EQUAL,""))
 			elif(self.check_equality(">=")):
-				self.push_token(TokenSymbols.EQUALITY,EqualityTypes.GREATER_THEN_EQUAL)
+				self.token_collection.append(Symbol(TokenSymbols.GREATER_THEN_EQUAL,""))
 			elif(self.check_equality("<")):
-				self.push_token(TokenSymbols.EQUALITY,EqualityTypes.LESS_THEN)
+				self.token_collection.append(Symbol(TokenSymbols.LESS_THEN,""))
 			elif(self.check_equality(">")):
-				self.push_token(TokenSymbols.EQUALITY,EqualityTypes.GREATER_THEN)
+				self.token_collection.append(Symbol(TokenSymbols.GREATER_THEN,""))
 			elif(self.check_equality("=")):
-				self.push_token(TokenSymbols.ASSIGNMENT,AssignmentType.EQUAL)
+				self.token_collection.append(Symbol(TokenSymbols.EQUAL,""))
 			elif(self.check_equality("+=")):
-				self.push_token(TokenSymbols.ASSIGNMENT,AssignmentType.PLUS_EQUAL)
+				self.token_collection.append(Symbol(TokenSymbols.PLUS_EQUAL,""))
 			elif(self.check_equality("-=")):
-				self.push_token(TokenSymbols.ASSIGNMENT,AssignmentType.MINUS_EQUAL)
+				self.token_collection.append(Symbol(TokenSymbols.MINUS_EQUAL,""))
 			elif(self.check_equality('.')):
-				self.push_token_key(TokenSymbols.PERIOD)
+				self.token_collection.append(Symbol(TokenSymbols.PERIOD,""))
 			else:
 				if(not (self.source[self.index] in SPACE)):
 					if(self.source[self.index] in NUMERIC):
@@ -67,11 +62,11 @@ class Scanner:
 								numeric += "."
 								self.index += 1
 								numeric += self.parse_number()
-								self.push_token(TokenSymbols.NUMBER,numeric)
+								self.token_collection.append(Symbol(TokenSymbols.NUMBER,numeric))
 							else:
-								self.push_token(TokenSymbols.NUMBER,numeric)
+								self.token_collection.append(Symbol(TokenSymbols.NUMBER,numeric))
 						else:
-							self.push_token(TokenSymbols.NUMBER,numeric)
+							self.token_collection.append(Symbol(TokenSymbols.NUMBER,numeric))
 					else:
 						variable = ""
 						while(self.index < len(self.source) ):
@@ -80,7 +75,7 @@ class Scanner:
 							else:
 								break
 							self.index += 1
-						self.push_token(TokenSymbols.IDENTIFIER,variable)
+						self.token_collection.append(Symbol(TokenSymbols.IDENTIFIER,variable))
 			self.index += 1
 
 	def parse_number(self):
@@ -104,3 +99,9 @@ class Scanner:
 			return True
 		else:
 			return False	
+
+	def __str__(self):
+		result = []
+		for tk in self.token_collection:
+			result.append(str(tk))
+		return str(result)
